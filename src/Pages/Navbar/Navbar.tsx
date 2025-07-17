@@ -25,17 +25,17 @@ const Navbar: React.FC = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              <Link to="" className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                Dashboard
+              <Link to="/" className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+               Home
               </Link>
-              <Link to="" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                Books
+              <Link to="/allbooks" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+               All Books
               </Link>
-              <Link to="" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                Members
+              <Link to="/addbooks" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+               Add Books
               </Link>
-              <Link to="" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                Loans
+              <Link to="/borrow" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+                Borrow Summary
               </Link>
             </div>
           </div>
@@ -57,17 +57,17 @@ const Navbar: React.FC = () => {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <Link to="" className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
-                Dashboard
+               <Link to="/" className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+               Home
               </Link>
-              <Link to="" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
-                Books
+              <Link to="/allbooks" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+               All Books
               </Link>
-              <Link to="" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
-                Members
+              <Link to="/addbooks" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+               Add Books
               </Link>
-              <Link to="" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
-                Loans
+              <Link to="/borrow" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+                Borrow Summary
               </Link>
             </div>
           </div>
