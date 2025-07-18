@@ -1,3 +1,4 @@
+import type { RootState } from '@/redux/Store/Store'
 import type { IBooks } from '@/types'
 import { createSlice } from '@reduxjs/toolkit'
 
@@ -14,8 +15,17 @@ const initialState: InitialState  = {
     isbn: "9754875654",
     description: "its a good book for develper",
     copies: 5,
-    availaable: true
-      }
+    available: true
+      },
+      {
+        title: "Be a react Expert",
+    author: " shuvo miya" ,
+    genre: "dev",
+    isbn: "9754875654",
+    description: "its a good book for develper",
+    copies: 5,
+    available: true
+      },
   ]
 }
 
@@ -27,7 +37,9 @@ export const bookSlice = createSlice({
   },
 })
 
-// Action creators are generated for each case reducer function
+export const selectBooks = (state:RootState) => {
+  return state.booklist.allbooks
+}
 
 
 export default bookSlice.reducer
