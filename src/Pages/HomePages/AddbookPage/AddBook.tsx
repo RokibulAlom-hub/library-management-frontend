@@ -24,14 +24,14 @@ const AddBook = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-  console.log(setForm({ ...form, [e.target.name]: e.target.value }))  
+  // console.log(setForm({ ...form, [e.target.name]: e.target.value }))  
     setError(null);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const { title, author, genre, isbn, description, copies } = form;
-  console.log(form)  
+  // console.log(form)  
     dispatch(
       addBook({
         title,

@@ -1,21 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useappSelector } from "@/redux/hook";
+import { useappDispacth, useappSelector } from "@/redux/hook";
 import type { IBooks } from "@/types";
-import { selectBooks } from "@/redux/features/books/booksSlice";
+import { deleteBook, selectBooks } from "@/redux/features/books/booksSlice";
 import { cn } from "@/lib/utils";
 
 
 
 const Landingpage = () => {
   const books = useappSelector(selectBooks) as [];
-
+  const dispatch = useappDispacth();
   // Placeholder action handlers
-  const handleDelete = (isbn: string) => {
-    // Dispatch delete action, e.g., dispatch(deleteBook(isbn));
-    console.log(`Delete book with ISBN: ${isbn}`);
-    alert("button is working ")
-  };
+  // const handleDelete = (isbn: string) => {
+  //   // Dispatch delete action, e.g., dispatch(deleteBook(isbn));
+  //   dispatch()
+  //   console.log(`Delete book with ISBN: ${isbn}`);
+  //   alert("button is working ")
+  // };
 
   const handleUpdate = (book: IBooks) => {
     // Dispatch update action, e.g., dispatch(updateBook(book));
@@ -65,7 +66,7 @@ const Landingpage = () => {
               <Button
                 variant="destructive"
                 size="sm"
-                onClick={() => handleDelete(book.isbn)}
+                onClick={() => dispatch(deleteBook(book.isbn))}
               >
                 Delete
               </Button>

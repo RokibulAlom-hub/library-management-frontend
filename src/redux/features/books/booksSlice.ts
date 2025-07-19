@@ -1,6 +1,6 @@
 import type { RootState } from '@/redux/Store/Store'
 import type { IBooks } from '@/types'
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 interface InitialState {
   allbooks: IBooks[]
@@ -18,8 +18,12 @@ export const bookSlice = createSlice({
   reducers: {
     //here we will write reducers one by one as much ase we need
     //first action addbooklist action 
-    addBook:(state,action) =>{
+    addBook:(state,action: PayloadAction<IBooks>) =>{
       state.allbooks.push(action.payload)
+    },
+    //now for delete action deletebooklist
+    deleteBook:(state,action:PayloadAction<string>) => {
+      state.allbooks=  state.allbooks.filter((book)=>book.isbn != action.payload)
     }
   },
 })
@@ -29,6 +33,6 @@ export const selectBooks = (state:RootState) => {
 }
 
 //now here will export the addbook action 
-export const {addBook} = bookSlice.actions;
+export const {addBook,deleteBook} = bookSlice.actions;
 
 export default bookSlice.reducer
