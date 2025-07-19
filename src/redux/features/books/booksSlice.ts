@@ -8,24 +8,7 @@ interface InitialState {
 
 const initialState: InitialState  = {
   allbooks:[
-      {
-        title: "Be a Dev Expert",
-    author: "Rokib shuvo",
-    genre: "tech",
-    isbn: "9754875654",
-    description: "its a good book for develper",
-    copies: 5,
-    available: true
-      },
-      {
-        title: "Be a react Expert",
-    author: " shuvo miya" ,
-    genre: "dev",
-    isbn: "9754875654",
-    description: "its a good book for develper",
-    copies: 5,
-    available: true
-      },
+  
   ]
 }
 
@@ -33,7 +16,11 @@ export const bookSlice = createSlice({
   name: 'booklist',
   initialState,
   reducers: {
-    
+    //here we will write reducers one by one as much ase we need
+    //first action addbooklist action 
+    addBook:(state,action) =>{
+      state.allbooks.push(action.payload)
+    }
   },
 })
 
@@ -41,5 +28,7 @@ export const selectBooks = (state:RootState) => {
   return state.booklist.allbooks
 }
 
+//now here will export the addbook action 
+export const {addBook} = bookSlice.actions;
 
 export default bookSlice.reducer

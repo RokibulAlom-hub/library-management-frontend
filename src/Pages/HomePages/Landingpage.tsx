@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { useappSelector } from "@/redux/hook";
 import type { IBooks } from "@/types";
 import { selectBooks } from "@/redux/features/books/booksSlice";
+import { cn } from "@/lib/utils";
 
 
 
@@ -14,16 +14,21 @@ const Landingpage = () => {
   const handleDelete = (isbn: string) => {
     // Dispatch delete action, e.g., dispatch(deleteBook(isbn));
     console.log(`Delete book with ISBN: ${isbn}`);
+    alert("button is working ")
   };
 
   const handleUpdate = (book: IBooks) => {
     // Dispatch update action, e.g., dispatch(updateBook(book));
     console.log(`Update book: ${book.title}`);
+    alert("button is working ")
+
   };
 
   const handleBorrow = (isbn: string) => {
     // Dispatch borrow action, e.g., dispatch(borrowBook(isbn));
     console.log(`Borrow book with ISBN: ${isbn}`);
+    alert("button is working ")
+
   };
 
   return (
@@ -49,9 +54,12 @@ const Landingpage = () => {
               <p className="text-sm mb-2">
                 <span className="font-medium">Copies:</span> {book.copies}
               </p>
-              <Badge variant={book.available ? "default" : "destructive"}>
+              <div className={cn("rounded border text-white",{
+                "bg-green-600": book.available === true,
+                "bg-red-700": book.available === false,
+              })}>
                 {book.available ? "Available" : "Unavailable"}
-              </Badge>
+              </div>
             </CardContent>
             <CardFooter className="flex justify-between gap-2">
               <Button
