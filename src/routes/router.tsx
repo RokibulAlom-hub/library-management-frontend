@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import { Homelayout } from "../Layouts/Homelayout/Homelayout";
 import Landingpage from "@/Pages/HomePages/Landingpage";
 import  AddBook from "@/Pages/HomePages/AddbookPage/AddBook";
+import  UpdateBook from "@/Pages/HomePages/UpdateBookpage/UpdateBook";
 
 export const router = createBrowserRouter([
     {
@@ -15,6 +16,10 @@ export const router = createBrowserRouter([
       {
         path:"/addbooks",
         element:<AddBook/>,
+      },
+      {
+        path:"/update-book/:id",
+        element:<UpdateBook/>,
       },
     ]
   },

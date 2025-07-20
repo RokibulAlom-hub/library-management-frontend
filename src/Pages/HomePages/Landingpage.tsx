@@ -1,30 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useappDispacth} from "@/redux/hook";
 import type { IBooks } from "@/types";
-import { deleteBook } from "@/redux/features/books/booksSlice";
 import { cn } from "@/lib/utils";
-import { useGetBooksQuery } from "@/redux/api/baseApi";
+import { useDeleteBookMutation, useGetBooksQuery } from "@/redux/api/baseApi";
+import { Link } from "react-router";
 
 
 
 const Landingpage = () => {
   // const books = useappSelector(selectBooks) as [];
-  const dispatch = useappDispacth();
-  const {data, isLoading} = useGetBooksQuery([])
-  const books = data?.books;
+  const {data:bookData, isLoading:getLoading} = useGetBooksQuery([])
+  const [deleteBook,{data:deleteData}] = useDeleteBookMutation()
+  const books = bookData?.books;
   
-  // console.log(books);
+  console.log(deleteData);
   
- if (isLoading) {
+ if (getLoading) {
   return <div>loading</div>
  }
-  const handleUpdate = (book: IBooks) => {
-    // Dispatch update action, e.g., dispatch(updateBook(book));
-    console.log(`Update book: ${book.title}`);
-    alert("button is working ")
-
-  };
+ 
+   
+  const handleDelete = async(bookId:string) => {
+    const res = await deleteBook(bookId)
+    console.log("coming from res",res,bookId);
+    alert("delte succedded")
+    
+  }
 
   const handleBorrow = (isbn: string) => {
     // Dispatch borrow action, e.g., dispatch(borrowBook(isbn));
@@ -67,17 +68,13 @@ const Landingpage = () => {
               <Button
                 variant="destructive"
                 size="sm"
-                onClick={() => dispatch(deleteBook(book.isbn))}
+                onClick={() => handleDelete(book?._id)}
               >
                 Delete
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleUpdate(book)}
-              >
-                Update
-              </Button>
+             <Link to={`/update-book/${book?._id}`} className="shadow-2xl border bg-amber-300">
+               Update
+             </Link>
               <Button
                 variant="default"
                 size="sm"
