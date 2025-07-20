@@ -4,13 +4,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { IBooks } from "@/types";
-import { useappDispacth } from "@/redux/hook";
-import { addBook } from "@/redux/features/books/booksSlice";
-
-
+import { useCreateBooksMutation } from "@/redux/api/baseApi";
 
 const AddBook = () => {
-  const dispatch = useappDispacth();
+  const [createBook, { data }] = useCreateBooksMutation();
+  console.log(data);
   const [form, setForm] = useState<IBooks>({
     title: "",
     author: "",
@@ -18,32 +16,42 @@ const AddBook = () => {
     isbn: "",
     description: "",
     copies: 0,
-    available:true
+    available: true,
   });
   const [error, setError] = useState<string | null>(null);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-  // console.log(setForm({ ...form, [e.target.name]: e.target.value }))  
+    // console.log(setForm({ ...form, [e.target.name]: e.target.value }))
     setError(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const { title, author, genre, isbn, description, copies } = form;
-  // console.log(form)  
-    dispatch(
-      addBook({
-        title,
-        author,
-        genre,
-        isbn,
-        description,
-        copies: Number(copies), //Number(copies) this is for string convert into number
-        available: true,
-      })
-    );
-    setForm({ title: "", author: "", genre: "", isbn: "", description: "", copies: 0 ,available:true});
+    console.log("this data is coming from ", form);
+
+    const res = await createBook({
+      title,
+      author,
+      genre,
+      isbn,
+      description,
+      copies: Number(copies), //Number(copies) this is for string convert into number
+      available: true,
+    }).unwrap();
+    console.log("this is datais coming from respose", res);
+
+    setForm({
+      title: "",
+      author: "",
+      genre: "",
+      isbn: "",
+      description: "",
+      copies: 0,
+      available: true,
+    });
   };
 
   return (
@@ -116,7 +124,9 @@ const AddBook = () => {
               />
             </div>
             {error && <p className="text-destructive text-sm">{error}</p>}
-            <Button type="submit" className="w-full">Add Book</Button>
+            <Button type="submit" className="w-full">
+              Add Book
+            </Button>
           </form>
         </CardContent>
       </Card>

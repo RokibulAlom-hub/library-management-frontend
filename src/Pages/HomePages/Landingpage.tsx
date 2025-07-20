@@ -1,23 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useappDispacth, useappSelector } from "@/redux/hook";
+import { useappDispacth} from "@/redux/hook";
 import type { IBooks } from "@/types";
-import { deleteBook, selectBooks } from "@/redux/features/books/booksSlice";
+import { deleteBook } from "@/redux/features/books/booksSlice";
 import { cn } from "@/lib/utils";
+import { useGetBooksQuery } from "@/redux/api/baseApi";
 
 
 
 const Landingpage = () => {
-  const books = useappSelector(selectBooks) as [];
+  // const books = useappSelector(selectBooks) as [];
   const dispatch = useappDispacth();
-  // Placeholder action handlers
-  // const handleDelete = (isbn: string) => {
-  //   // Dispatch delete action, e.g., dispatch(deleteBook(isbn));
-  //   dispatch()
-  //   console.log(`Delete book with ISBN: ${isbn}`);
-  //   alert("button is working ")
-  // };
-
+  const {data, isLoading} = useGetBooksQuery([])
+  const books = data?.books;
+  
+  // console.log(books);
+  
+ if (isLoading) {
+  return <div>loading</div>
+ }
   const handleUpdate = (book: IBooks) => {
     // Dispatch update action, e.g., dispatch(updateBook(book));
     console.log(`Update book: ${book.title}`);
