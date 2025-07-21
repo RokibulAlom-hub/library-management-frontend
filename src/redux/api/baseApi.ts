@@ -1,7 +1,8 @@
 // import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 // import type { Pokemon } from './types'
 
-import { createApi , fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import type { IBooks } from "@/types";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // // Define a service using a base URL and expected endpoints
 // export const pokemonApi = createApi({
@@ -19,33 +20,41 @@ import { createApi , fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 // export const { useGetPokemonByNameQuery } = pokemonApi
 
 export const baseApi = createApi({
-    reducerPath:"baseApi",
+    reducerPath: "baseApi",
     baseQuery: fetchBaseQuery({
-        baseUrl:`http://localhost:5000/api`
+        baseUrl: `http://localhost:5000/api`
     }),
-    tagTypes:["books"],
+    tagTypes: ["books"],
     endpoints: (build) => ({
         getBooks: build.query({
-            query:() => "/books",
-            providesTags:["books"]
+            query: () => "/books",
+            providesTags: ["books"]
         }),
-        createBooks:build.mutation({
+        createBooks: build.mutation({
             query: (bookData) => ({
-                url:"/books",
-                method:"POST",
-                body:bookData
+                url: "/books",
+                method: "POST",
+                body: bookData
             }),
-            invalidatesTags:["books"]
+            invalidatesTags: ["books"]
         }),
-       
+
         deleteBook: build.mutation({
-            query:(bookId) => ({
-                url:`/books/${bookId}`,
-                method:"DELETE"
+            query: (bookId) => ({
+                url: `/books/${bookId}`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["books"]
+        }),
+        updateBookbyId: build.mutation({
+            query: ( {id,updateData}:{ id: string; updateData: IBooks } ) => ({
+                url: `/books/${id}`,
+                method: "PATCH",
+                body: updateData
             }),
             invalidatesTags:["books"]
         })
     })
 })
 
-export const { useGetBooksQuery, useCreateBooksMutation, useDeleteBookMutation,  } = baseApi;
+export const { useGetBooksQuery, useCreateBooksMutation, useDeleteBookMutation, useUpdateBookbyIdMutation } = baseApi;
