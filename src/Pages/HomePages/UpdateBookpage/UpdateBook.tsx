@@ -45,7 +45,6 @@ const UpdateBook = () => {
         ...form,
         copies:Number(form.copies)
       }
-
     }).unwrap()
     
      console.log("Response after update:", res);
