@@ -6,5 +6,6 @@ export interface IBooks {
     isbn: string,
     description: string,
     copies: number,
-    available?: boolean
+    available?: boolean,
+    createdAt?:Date
 }
