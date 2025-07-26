@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { IBooks } from "@/types";
 import { useCreateBooksMutation } from "@/redux/api/baseApi";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const AddBook = () => {
   const [createBook, { data }] = useCreateBooksMutation();
-  console.log(data);
+  const navigate = useNavigate()
   const [form, setForm] = useState<IBooks>({
     title: "",
     author: "",
@@ -26,12 +28,12 @@ const AddBook = () => {
     // console.log(setForm({ ...form, [e.target.name]: e.target.value }))
     setError(null);
   };
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const { title, author, genre, isbn, description, copies } = form;
     console.log("this data is coming from ", form);
-
+    
     const res = await createBook({
       title,
       author,
@@ -41,7 +43,13 @@ const AddBook = () => {
       copies: Number(copies), //Number(copies) this is for string convert into number
       available: true,
     }).unwrap();
-    console.log("this is datais coming from respose", res);
+    Swal.fire({
+      title: 'Success!',
+      text: 'Updated Done',
+      icon: 'success',
+      confirmButtonText: 'Cool'
+    })
+    console.log(data,res);
 
     setForm({
       title: "",
@@ -52,6 +60,7 @@ const AddBook = () => {
       copies: 0,
       available: true,
     });
+    navigate(`/allbooks`)
   };
 
   return (

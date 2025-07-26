@@ -65,7 +65,7 @@ const DetailsPage = () => {
         </div>
         <div>
           <span className="font-medium">Published:</span>{" "}
-          {new Date(bookData.createdAt).toLocaleDateString()}
+          {new Date(bookData.createdAt  ?? new Date()).toLocaleDateString()}
         </div>
        
       </div>

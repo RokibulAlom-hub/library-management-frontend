@@ -7,5 +7,5 @@ export interface IBooks {
     description: string,
     copies: number,
     available?: boolean,
-    createdAt?:Date
+    createdAt?:string | number | Date
 }

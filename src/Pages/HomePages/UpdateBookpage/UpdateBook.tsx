@@ -4,13 +4,15 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { IBooks } from "@/types";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useUpdateBookbyIdMutation } from "@/redux/api/baseApi";
+import Swal from "sweetalert2";
 
 
 
 const UpdateBook = () => {
   const {id}= useParams()
+
   const [updateFunctionByredux,{data}]=useUpdateBookbyIdMutation();
   const [form, setForm] = useState<IBooks>({
     title: "",
@@ -21,6 +23,8 @@ const UpdateBook = () => {
     copies: 0,
     available: true,
   });
+  const navigate = useNavigate()
+
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
@@ -48,7 +52,13 @@ const UpdateBook = () => {
     }).unwrap()
     
      console.log("Response after update:", res);
-
+   Swal.fire({
+  title: 'Success!',
+  text: 'Updated Done',
+  icon: 'success',
+  confirmButtonText: 'Cool'
+})
+navigate(`/allbooks`)
    } catch (err) {
     console.error("Update failed:", err);
    }

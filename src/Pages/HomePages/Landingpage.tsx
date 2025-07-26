@@ -13,13 +13,19 @@ import { Link } from "react-router";
 const Landingpage = () => {
   // const books = useappSelector(selectBooks) as [];
 
-  const { data: bookData, isLoading: getLoading } = useGetBooksQuery([]);
+  const { data: bookData, isLoading: getLoading ,isError} = useGetBooksQuery([]);
 
   const books = bookData?.books;
 
   if (getLoading) {
-    return <div>loading</div>;
+    return <div>loading books</div>;
   }
+  if (isError || !books)
+    return (
+      <div className="text-center mt-10 text-red-600">
+        Failed to load borrow summary.
+      </div>
+    );
 
   return (
     <div className="container mx-auto p-4">

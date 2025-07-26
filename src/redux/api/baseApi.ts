@@ -21,7 +21,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: `http://localhost:5000/api`
+        baseUrl: `https://assig-three-eight.vercel.app/api`
     }),
     tagTypes: ["books", "borrow"],
     endpoints: (build) => ({
@@ -59,7 +59,7 @@ export const baseApi = createApi({
         //to borrow book data creation 
         createBorrowBook: build.mutation({
             query: (borrowCreationData) => ({
-                url: `/borrow`,
+                url: `/borrows`,
                 method: "POST",
                 body: borrowCreationData,
             }),
@@ -68,7 +68,7 @@ export const baseApi = createApi({
         }),
         //to get borrows data summary 
         getBorrowBookDatas: build.query({
-            query: ( ) => "/borrow",
+            query: ( ) => "/borrows",
             providesTags:["borrow"]
         })
     })

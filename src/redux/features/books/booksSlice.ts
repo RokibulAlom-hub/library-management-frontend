@@ -8,7 +8,6 @@ interface InitialState {
 
 const initialState: InitialState  = {
   allbooks:[
-  
   ]
 }
 

@@ -4,7 +4,7 @@ import {
   useDeleteBookMutation,
   useGetBooksQuery,
 } from "@/redux/api/baseApi";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useState } from "react";
 import {
   Dialog,
@@ -15,28 +15,54 @@ import {
 } from "@/components/ui/dialog";
 import type { IBooks } from "@/types";
 import { BookOpen, Pencil, Trash2 } from "lucide-react";
-
+import Swal from "sweetalert2";
 const AllBooksList = () => {
   const [isBorrowing, setIsborrowing] = useState(false);
   const [quantity, setBorrowQuantity] = useState(1);
   const [dueDate, setDuedate] = useState("");
-  const [selectBook, setselectBook] = useState(null);
-  const { data: bookData, isLoading: getLoading } = useGetBooksQuery([]);
+  const [selectBook, setselectBook] = useState<IBooks | null>(null);
+  const { data: bookData, isLoading: getLoading ,isError} = useGetBooksQuery([]);
   const [deleteBook] = useDeleteBookMutation();
   const [createBorrow] = useCreateBorrowBookMutation();
   const books = bookData?.books;
-
+  const navigate = useNavigate();
   if (getLoading) return <div>Loading...</div>;
-
-  const handleDelete = async (bookId: string) => {
-    await deleteBook(bookId);
-    alert("Delete succeeded");
+ if (isError || !books)
+    return (
+      <div className="text-center mt-10 text-red-600">
+        Failed to load data.
+      </div>
+    );
+  const handleDelete = async (bookId: string | undefined) => {
+    Swal.fire({
+      title: "Do you want to Delete?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      denyButtonText: `Don't Delete`,
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        await deleteBook(bookId);
+        Swal.fire("Delete!", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
   };
 
-  const handleBorrow = async (bookID: string) => {
+  const handleBorrow = async (bookID: string | undefined) => {
     const finalData = { bookID, quantity, dueDate };
+    console.log(bookID, quantity, dueDate);
+
     await createBorrow(finalData);
-    alert("Book borrowed successfully");
+    Swal.fire({
+      title: "Success!",
+      text: "Boorrow Done",
+      icon: "success",
+      confirmButtonText: "Cool",
+    });
+    navigate(`/borrow`);
   };
 
   return (
@@ -47,24 +73,26 @@ const AllBooksList = () => {
         <table className="min-w-full border border-gray-300 text-sm">
           <thead className="bg-gray-100 text-left">
             <tr>
+              <th className="p-3">#</th>
               <th className="p-3">Title</th>
               <th className="p-3">Author</th>
               <th className="p-3">Genre</th>
               <th className="p-3">ISBN</th>
-              <th className="p-3">Description</th>
+
               <th className="p-3">Copies</th>
               <th className="p-3">Status</th>
               <th className="p-3 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {books.map((book: IBooks) => (
-              <tr key={book.isbn} className="border-t">
+            {books.map((book: IBooks, index: number) => (
+              <tr key={index} className="border-t">
+                <td>{index + 1}</td>
                 <td className="p-3">{book.title}</td>
                 <td className="p-3">{book.author}</td>
                 <td className="p-3">{book.genre}</td>
                 <td className="p-3">{book.isbn}</td>
-                <td className="p-3 max-w-xs truncate">{book.description}</td>
+
                 <td className="p-3">{book.copies}</td>
                 <td className="p-3">
                   <span

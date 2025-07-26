@@ -26,7 +26,8 @@ interface IBorrowSummary {
 const BorrowSummary = () => {
   const { data, isLoading, isError } = useGetBorrowBookDatasQuery(null);
   const summaryData = data?.data;
-
+  console.log(summaryData);
+  
   if (isLoading)
     return <div className="text-center mt-10">Loading borrow summary...</div>;
 
@@ -49,6 +50,7 @@ const BorrowSummary = () => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>#</TableHead>
                 <TableHead>Book Title</TableHead>
                 <TableHead>ISBN</TableHead>
                 <TableHead>Total Quantity Borrowed</TableHead>
@@ -57,9 +59,10 @@ const BorrowSummary = () => {
             <TableBody>
               {summaryData.map((entry: IBorrowSummary, index: number) => (
                 <TableRow key={index}>
-                  <TableCell>{entry.book.title}</TableCell>
-                  <TableCell>{entry.book.isbn}</TableCell>
-                  <TableCell>{entry.totalquantity}</TableCell>
+                  <TableCell>{index+1}</TableCell>
+                  <TableCell>{entry.book?.title}</TableCell>
+                  <TableCell>{entry.book?.isbn}</TableCell>
+                  <TableCell>{entry?.totalquantity}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
